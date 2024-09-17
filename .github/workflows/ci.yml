@@ -61,8 +61,8 @@ jobs:
       - name: Pulling client image
         run: sudo docker pull vietbac2002/full-stack-demo-client:latest
 
-      - name: Delete old containers
-        run: sudo docker rm -v -f $(docker ps -qa)
+      # - name: Delete old containers
+      #   run: sudo docker rm -v -f $(docker ps -qa)
 
       - name: Docker compose server
         run: sudo docker-compose up -d
