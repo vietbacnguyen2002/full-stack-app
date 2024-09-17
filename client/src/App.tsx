@@ -25,12 +25,12 @@ const columns = [
 //   name:string;
 //   age:number;
 // }
-
+const BACKEND_URL="http://localhost/api/v1/customers";
 function App() {
   const [customs, setCustoms] = useState<Customer[]>([]);
   const [customer, setCustomer] = useState({ name: "", age: 0 });
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/customers")
+    fetch(BACKEND_URL)
       .then((res) => res.json())
       .then((data) => {
         setCustoms(data);
@@ -46,7 +46,7 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-     fetch("http://localhost:8080/api/v1/customers", {
+     fetch(BACKEND_URL, {
       method: "POST",
       body: JSON.stringify(customer),
       headers: {
