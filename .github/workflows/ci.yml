@@ -1,4 +1,5 @@
 name: CI/CD Pipeline
+
 on: 
   push:
     branches:
@@ -6,28 +7,38 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout the repository
       - name: Checkout VCS
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
+
+      # Log in to DockerHub
       - name: Login with DockerHub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      # Build the server Docker image
       - name: Build server image
-        run: cd server && docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest -f server/Dockerfile .
+        working-directory: ./server  # Set the working directory to 'server'
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest -f Dockerfile .
+
+      # Build the client Docker image
       - name: Build client image
-        run: cd client && docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest -f client/Dockerfile .
+        working-directory: ./client  # Set the working directory to 'client'
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest -f Dockerfile .
+
+      # Push the images to DockerHub
       - name: Push images
-        run:  docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest && docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
-  # deploy:
-  #   runs-on: [aws-ec2]
-  #   steps:
-  #     - name: Pull images from DockerHub
-  #       run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest && docker pull ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
-  #     - name: Delete old containers
-  #       run: docker rm -f $(docker ps -a -q)
-  #     - name: Run container with docker-compose
-  #       run: docker-compose up -d
-        
-      
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
+
+      # Logout from DockerHub (optional but good practice)
+      - name: Logout from DockerHub
+        run: docker logout
