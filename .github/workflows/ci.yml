@@ -46,14 +46,14 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ['ip-172-31-22-136']
     steps:
       - name: Pulling server image
         run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-server:latest
       - name: Pulling client image
         run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
       - name: Delete old containers
-        run: docker rm -f $(docker ps -a -q)
+        run: docker rm -v -f $(docker ps -qa)
       - name: Docker compose server
         run: docker-compose up -d
         
