@@ -17,6 +17,12 @@ jobs:
       - name: Checkout VCS
         uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # Log in to DockerHub
       - name: Login with DockerHub
         uses: docker/login-action@v3
@@ -24,24 +30,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build the server Docker image
-      - name: Build server image
-        working-directory: ./server  # Set the working directory to 'server'
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest -f Dockerfile .
+      # Build and push the Docker image
+      - name: Build and push Docker image server
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-server:latest
+      
+      - name: Build and push Docker image client
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
+        
+        
+      
 
-      # Build the client Docker image
-      - name: Build client image
-        working-directory: ./client  # Set the working directory to 'client'
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest -f Dockerfile .
-
-      # Push the images to DockerHub
-      - name: Push images
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
-
-      # Logout from DockerHub (optional but good practice)
-      - name: Logout from DockerHub
-        run: docker logout
+      
