@@ -54,6 +54,10 @@ jobs:
           sudo apt-get install -y docker.io
           sudo systemctl start docker
           sudo systemctl enable docker
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Pulling server image
         run: sudo docker pull vietbac2002/full-stack-demo-server:latest
@@ -61,11 +65,11 @@ jobs:
       - name: Pulling client image
         run: sudo docker pull vietbac2002/full-stack-demo-client:latest
 
-      # - name: Delete old containers
-      #   run: sudo docker rm -v -f $(docker ps -qa)
+      - name: Delete old containers
+        run: sudo docker container prune
 
       - name: Docker compose server
-        run: sudo docker-compose up -d
+        run: sudo docker compose up -d
         
       
         
