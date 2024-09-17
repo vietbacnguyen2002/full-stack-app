@@ -2,16 +2,12 @@ version: '3.8'
 
 services:
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: vietbac2002/full-stack-demo-server:latest
     ports:
       - 8080:8080
     restart: always
   client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
+    image: vietbac2002/full-stack-demo-client:latest
     ports:
       - 80:80
     depends_on:
