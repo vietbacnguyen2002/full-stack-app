@@ -69,7 +69,7 @@ jobs:
         run: sudo docker container prune
 
       - name: Docker compose server
-        run: sudo docker compose up
+        run: sudo docker-compose up
         
       
         
