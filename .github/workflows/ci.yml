@@ -56,16 +56,16 @@ jobs:
           sudo systemctl enable docker
 
       - name: Pulling server image
-        run: docker pull vietbac2002/full-stack-demo-server:latest
+        run: sudo docker pull vietbac2002/full-stack-demo-server:latest
 
       - name: Pulling client image
-        run: docker pull vietbac2002/full-stack-demo-client:latest
+        run: sudo docker pull vietbac2002/full-stack-demo-client:latest
 
       - name: Delete old containers
-        run: docker rm -v -f $(docker ps -qa)
-        
+        run: sudo docker rm -v -f $(docker ps -qa)
+
       - name: Docker compose server
-        run: docker-compose up -d
+        run: sudo docker-compose up -d
         
       
         
