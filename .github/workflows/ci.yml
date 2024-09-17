@@ -1,16 +1,47 @@
-name: ci
+name: CI/CD Pipeline
 
-on:
+on: 
   push:
-    branches: main
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  login:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      -
-        name: Login to Docker Hub
+      # Checkout the repository
+      - name: Checkout VCS
+        uses: actions/checkout@v3
+
+      # Log in to DockerHub
+      - name: Login with DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build the server Docker image
+      - name: Build server image
+        working-directory: ./server  # Set the working directory to 'server'
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest -f Dockerfile .
+
+      # Build the client Docker image
+      - name: Build client image
+        working-directory: ./client  # Set the working directory to 'client'
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest -f Dockerfile .
+
+      # Push the images to DockerHub
+      - name: Push images
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
+
+      # Logout from DockerHub (optional but good practice)
+      - name: Logout from DockerHub
+        run: docker logout
