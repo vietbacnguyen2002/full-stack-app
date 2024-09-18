@@ -41,8 +41,8 @@ tasks.named('test') {
 
 sonar {
   properties {
-    property "sonar.projectKey", "test-ci-cd_full-stack-app"
-    property "sonar.organization", "test-ci-cd"
+    property "sonar.projectKey", "vietbacnguyen2002_full-stack-app"
+    property "sonar.organization", "vietbacnguyen2002"
     property "sonar.host.url", "https://sonarcloud.io"
   }
 }
