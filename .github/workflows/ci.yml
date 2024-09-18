@@ -18,79 +18,78 @@ jobs:
       run:
         working-directory: ./client
     steps:
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarcloud-github-action@master
-          env:
-            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          with:
-            args: >
-              -Dsonar.projectKey=vietbacnguyen2002_full-stack-app
-              -Dsonar.organization=vietbacnguyen2002
-              -Dsonar.sources=.
-              -Dsonar.exclusions=**/node_modules/**
-              -Dsonar.tests=.
-              -Dsonar.test.inclusions=**/*.spec.js
-              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-              -Dsonar.verbose=true
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=vietbacnguyen2002_full-stack-app
+            -Dsonar.organization=vietbacnguyen2002
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/node_modules/**
+            -Dsonar.tests=.
+            -Dsonar.test.inclusions=**/*.spec.js
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.verbose=true
 
-        # analyze:
-        # name: Build and analyze
-        # runs-on: ubuntu-latest
-        # defaults:
-        #   run:
-        #     working-directory: ./server
-        # services:
-        #   mysql:
-        #     image: mysql:8.0.33
-        #     env:
-        #       MYSQL_USER: admin
-        #       MYSQL_ROOT_PASSWORD: 091979818Vip
-        #       MYSQL_DATABASE: customer_app
-        #     ports:
-        #       - 3307:3306
-        # steps:
-        #   - uses: actions/checkout@v4
-        #     with:
-        #       fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-        #   - name: Set up JDK 17
-        #     uses: actions/setup-java@v4
-        #     with:
-        #       java-version: 17
-        #       distribution: "zulu" # Alternative distribution options are available
-        #   - name: Cache SonarCloud packages
-        #     uses: actions/cache@v4
-        #     with:
-        #       path: ~/.sonar/cache
-        #       key: ${{ runner.os }}-sonar
-        #       restore-keys: ${{ runner.os }}-sonar
-        #   - name: Cache Gradle packages
-        #     uses: actions/cache@v4
-        #     with:
-        #       path: ~/.gradle/caches
-        #       key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-        #       restore-keys: ${{ runner.os }}-gradle
-        #   - name: Make gradlew executable
-        #     run: chmod +x ./gradlew
+      # analyze:
+      # name: Build and analyze
+      # runs-on: ubuntu-latest
+      # defaults:
+      #   run:
+      #     working-directory: ./server
+      # services:
+      #   mysql:
+      #     image: mysql:8.0.33
+      #     env:
+      #       MYSQL_USER: admin
+      #       MYSQL_ROOT_PASSWORD: 091979818Vip
+      #       MYSQL_DATABASE: customer_app
+      #     ports:
+      #       - 3307:3306
+      # steps:
+      #   - uses: actions/checkout@v4
+      #     with:
+      #       fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      #   - name: Set up JDK 17
+      #     uses: actions/setup-java@v4
+      #     with:
+      #       java-version: 17
+      #       distribution: "zulu" # Alternative distribution options are available
+      #   - name: Cache SonarCloud packages
+      #     uses: actions/cache@v4
+      #     with:
+      #       path: ~/.sonar/cache
+      #       key: ${{ runner.os }}-sonar
+      #       restore-keys: ${{ runner.os }}-sonar
+      #   - name: Cache Gradle packages
+      #     uses: actions/cache@v4
+      #     with:
+      #       path: ~/.gradle/caches
+      #       key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      #       restore-keys: ${{ runner.os }}-gradle
+      #   - name: Make gradlew executable
+      #     run: chmod +x ./gradlew
 
-        # - name: wait for mysql
-        #   run: |
-        #     until mysql -h "localhost" -p "3307" -u "admin" -D "customer_app" -e "SHOW DATABASES"; >dev/null 2&1;  do sleep 10; done
+      # - name: wait for mysql
+      #   run: |
+      #     until mysql -h "localhost" -p "3307" -u "admin" -D "customer_app" -e "SHOW DATABASES"; >dev/null 2&1;  do sleep 10; done
 
-        - name: Build and analyze
-          env:
-            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            DB_HOST: localhost
-            DB_PORT: 3307
-            DB_USER: admin
-            DB_PASS: 091979818Vip
-            DB_NAME: customer_app
-          run: ./gradlew build sonar --info
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          DB_HOST: localhost
+          DB_PORT: 3307
+          DB_USER: admin
+          DB_PASS: 091979818Vip
+          DB_NAME: customer_app
+        run: ./gradlew build sonar --info
 
   # build:
   #   runs-on: ubuntu-latest
