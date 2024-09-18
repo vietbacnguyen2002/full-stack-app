@@ -35,7 +35,7 @@ jobs:
   #           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
   #           -Dsonar.verbose=true
 
-      analyze:
+    analyze:
       name: Build and analyze
       runs-on: ubuntu-latest
       defaults:
