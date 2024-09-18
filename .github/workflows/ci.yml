@@ -10,7 +10,6 @@ on:
 
 jobs:
   analyze:
-    analyze:
     name: Build and analyze
     runs-on: ubuntu-latest
     defaults:
