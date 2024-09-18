@@ -23,7 +23,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: 091979818Vip
           MYSQL_DATABASE: customer_app
         ports:
-          - 3306:3306
+          - 3307:3306
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
