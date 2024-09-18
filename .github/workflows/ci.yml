@@ -40,7 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: sudo ./gradlew build sonar --info
+        run: ./gradlew build sonar --info # sudo: ./gradlew: command not found how to fix int
+
 
   build:
     runs-on: ubuntu-latest
