@@ -9,32 +9,6 @@ on:
       - main
 
 jobs:
-  # sonarcloud:
-  #   name: SonarCloud
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./client
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-  #     - name: SonarCloud Scan
-  #       uses: SonarSource/sonarcloud-github-action@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #       with:
-  #         args: >
-  #           -Dsonar.projectKey=vietbacnguyen2002_full-stack-app
-  #           -Dsonar.organization=vietbacnguyen2002
-  #           -Dsonar.sources=.
-  #           -Dsonar.exclusions=**/node_modules/**
-  #           -Dsonar.tests=.
-  #           -Dsonar.test.inclusions=**/*.spec.js
-  #           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-  #           -Dsonar.verbose=true
-
     analyze:
       name: Build and analyze
       runs-on: ubuntu-latest
@@ -68,7 +42,34 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonar --info
+        run: ./gradlew build sonar --info:
+  # sonarcloud:
+  #   name: SonarCloud
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./client
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  #     - name: SonarCloud Scan
+  #       uses: SonarSource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       with:
+  #         args: >
+  #           -Dsonar.projectKey=vietbacnguyen2002_full-stack-app
+  #           -Dsonar.organization=vietbacnguyen2002
+  #           -Dsonar.sources=.
+  #           -Dsonar.exclusions=**/node_modules/**
+  #           -Dsonar.tests=.
+  #           -Dsonar.test.inclusions=**/*.spec.js
+  #           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+  #           -Dsonar.verbose=true
+
+   
 
   # build:
   #   runs-on: ubuntu-latest
