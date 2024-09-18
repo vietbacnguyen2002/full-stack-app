@@ -25,7 +25,7 @@ const columns = [
 //   name:string;
 //   age:number;
 // }
-const BACKEND_URL="http://localhost/api/v1/customers";
+const BACKEND_URL="http://18.141.172.90/api/v1/customers";
 function App() {
   const [customs, setCustoms] = useState<Customer[]>([]);
   const [customer, setCustomer] = useState({ name: "", age: 0 });
