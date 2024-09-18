@@ -44,32 +44,7 @@ jobs:
           context: ./client
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/full-stack-demo-client:latest
-  deploy:
-    needs: build
-    runs-on: ['aws-ec2']
-    steps:
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo systemctl start docker
-          sudo systemctl enable docker
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
-      - name: Pulling server image
-        run: sudo docker pull vietbac2002/full-stack-demo-server:latest
-
-      - name: Pulling client image
-        run: sudo docker pull vietbac2002/full-stack-demo-client:latest
-
-      - name: Delete old containers
-        run: sudo docker container prune
-
-      - name: Docker compose server
-        run: sudo docker-compose up
+  
         
       
         
