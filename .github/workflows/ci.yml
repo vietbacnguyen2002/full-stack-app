@@ -48,9 +48,9 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: wait for mysql
-        run: |
-          until mysql -h "localhost" -p "3307" -u "admin" -D "customer_app" -e "SHOW DATABASES"; >dev/null 2&1;  do sleep 10; done
+      # - name: wait for mysql
+      #   run: |
+      #     until mysql -h "localhost" -p "3307" -u "admin" -D "customer_app" -e "SHOW DATABASES"; >dev/null 2&1;  do sleep 10; done
 
       - name: Build and analyze
         env:
