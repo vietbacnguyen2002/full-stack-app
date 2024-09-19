@@ -5,6 +5,8 @@ services:
     image: vietbac2002/full-stack-demo-server:latest
     ports:
       - 8080:8080
+    environment:
+      - spring.profiles.active=dev
     restart: always
   client:
     image: vietbac2002/full-stack-demo-client:latest
