@@ -42,8 +42,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run:
-          ./gradlew build sonar --info:
+        run: ./gradlew build sonar --info
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
