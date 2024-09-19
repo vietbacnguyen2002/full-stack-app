@@ -59,12 +59,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=vietbacnguyen2002_client
-            -Dsonar.organization=vietbacnguyen2002
-            -Dsonar.test.inclusions=**/*.spec.js
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        # with:
+        #   args: >
+        #     -Dsonar.projectKey=vietbacnguyen2002_client
+        #     -Dsonar.organization=vietbacnguyen2002
+        #     -Dsonar.test.inclusions=**/*.spec.js
+        #     -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
   build:
     runs-on: ubuntu-latest
