@@ -54,17 +54,29 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Clean sonar gradle cache
+        run: |
+          rm -rf ~/.gradle/caches/modules-2/files-2.1/org.sonarsource.scanner.cli
+          rm -rf ~/.gradle/caches/modules-2/files-2.1/org.sonarsource.scanner.cli
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar  
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # with:
-        #   args: >
-        #     -Dsonar.projectKey=vietbacnguyen2002_client
-        #     -Dsonar.organization=vietbacnguyen2002
-        #     -Dsonar.test.inclusions=**/*.spec.js
-        #     -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        with:
+          args: >
+            -Dsonar.projectKey=vietbacnguyen2002_client
+            -Dsonar.organization=vietbacnguyen2002
+            -Dsonar.sources=client
+            -Dsonar.exclusions=client/node_modules/**
+            -Dsonar.tests=client
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
   build:
     runs-on: ubuntu-latest
